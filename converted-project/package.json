@@ -1,9 +1,10 @@
 {
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "lint": "next lint"
+}
+,
   "dependencies": {
     "next": "^15.2.4",
     "react": "18.x",
