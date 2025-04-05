@@ -1,0 +1,37 @@
+name: 🔍 Validate Converted Next.js Code
+
+on:
+  push:
+    paths:
+      - 'converted-project/**'
+  pull_request:
+    paths:
+      - 'converted-project/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: converted-project
+
+    steps:
+      - name: 📥 Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🔠 TypeScript Check
+        run: npx tsc --noEmit
+
+      - name: 🧹 ESLint Lint Check
+        run: npx eslint . --ext .js,.ts,.tsx
+
+      - name: ⚒️ Next.js Build Test
+        run: npm run build
