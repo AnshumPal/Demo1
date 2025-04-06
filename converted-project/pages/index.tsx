@@ -1,8 +1,16 @@
-
 import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 
-function HomePage({ post }) {
-  // Render the post data received from getServerSideProps
+interface Post {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  post: Post;
+}
+
+const HomePage = ({ post }: Props) => {
   return (
     <div>
       <Head>
@@ -20,15 +28,17 @@ function HomePage({ post }) {
       )}
     </div>
   );
-}
+};
 
-// Fetch data server-side using getServerSideProps
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts/1');
   const post = await res.json();
 
-  // Pass data to the page via props
-  return { props: { post } };
-}
+  return {
+    props: {
+      post,
+    },
+  };
+};
 
 export default HomePage;
