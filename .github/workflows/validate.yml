@@ -1,39 +1,30 @@
-name: Validate Next.js Project
+name: Next.js CI
 
 on:
   push:
-    paths:
-      - 'converted-project/**'
+    branches: [main]
   pull_request:
-    paths:
-      - 'converted-project/**'
+    branches: [main]
 
 jobs:
-  validate:
-    name: Validate Code
+  build-and-test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: converted-project
-
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run TypeScript check (tsc)
-        run: npx tsc --noEmit
+      - name: Run linter
+        run: npm run lint
 
-      - name: Run ESLint
-        run: npx eslint . --ext .ts,.tsx
-
-      - name: Build Next.js project
+      - name: Run build
         run: npm run build
